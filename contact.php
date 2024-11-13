@@ -28,7 +28,7 @@ $message = $_POST['message'];
       $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
       //Recipients
-      $mail->setFrom('udaykumar.77348@gmail.com', 'Shekhar Portfolio');
+      $mail->setFrom('udaykumar.77348@gmail.com', 'Shekar Portfolio');
       $mail->addAddress('ramgopi@ibridge.digital'); 
       /*$mail->addAddress("info@sosinclasses.com");
       $mail->addAddress('counselor2@sosinclasses.com');
@@ -36,7 +36,7 @@ $message = $_POST['message'];
       $mail->addAddress('madhu@sosinclasses.com');*/
       //Content
       $mail->isHTML(true);             
-      $mail->Subject = 'Shekhar Portfolio ';
+      $mail->Subject = 'Shekar Portfolio ';
       $mail->Body = '
       <table>
         <tr>
