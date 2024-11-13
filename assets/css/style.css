@@ -578,6 +578,7 @@ section {
   transition: all ease-in-out 0.3s;
   z-index: 2;
   opacity: 0;
+  
 }
 
 .portfolio .portfolio-wrap .portfolio-links {
@@ -629,7 +630,7 @@ section {
   padding-top: 40px;
 }
 
-.portfolio-details .portfolio-details-slider img {
+.portfolio-details .portfolio-details-slider img video{
   width: 100%;
 }
 
