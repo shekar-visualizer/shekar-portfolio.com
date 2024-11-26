@@ -472,10 +472,10 @@
             VideoElement.classList.add('col-lg-4', 'col-md-6', 'portfolio-item', 'filter-card');
       
             VideoElement.innerHTML = `
-              <div class="portfolio-wrap">
+              <div class="portfolio-wraps">
                 <video src="assets/img/portfolio/videos/${video.src}" class="img-fluid" alt="" controls>
                   <div class="portfolio-links">
-                    <a href="assets/img/portfolio/images/${video.src}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="${video.title}"><i class="bx bx-plus"></i></a>
+                    <a href="assets/img/portfolio/videos/${video.src}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="${video.title}"><i class="bx bx-plus"></i></a>
                   </div>               
               </div>
             `;
