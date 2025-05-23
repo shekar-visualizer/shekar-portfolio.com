@@ -1,4 +1,9 @@
 const PhotoshopFiles = [
+  { src: "101.png", title: "Take a look!" },
+  { src: "102.jpg", title: "Take a look!" },
+  { src: "103.jpg", title: "Take a look!" },
+  { src: "104.jpg", title: "Take a look!" },
+  { src: "105.jpg", title: "Take a look!" },
   { src: "m1.jpg", title: "Take a look!" },
   { src: "m2.jpg", title: "Take a look!" },
   { src: "m3.jpg", title: "Take a look!" },
