@@ -112,13 +112,7 @@ const PhotoshopFiles = [
   { src: "46.jpg", title: "Take a look!" },
   { src: "47.jpg", title: "Take a look!" },
   { src: "48.jpg", title: "Take a look!" },
-  { src: 'I1.jpg', title: "Take a look!" },
-  { src: 'I2.jpg', title: "Take a look!" },
-  { src: 'I3.jpg', title: "Take a look!" },
-  { src: 'I4.jpg', title: "Take a look!" },
-  { src: 'I5.jpg', title: "Take a look!" },
-  { src: 'I6.jpg', title: "Take a look!" },
-  { src: 'I7.jpg', title: "Take a look!" },
+  
 ];
 
 
