@@ -34,6 +34,9 @@ let workingPPTFiles = [];
 // Store actual file objects for newly uploaded files
 let uploadedFileObjects = new Map(); // Maps filename to File object
 
+// Track files that need to be deleted from repository
+let filesToDelete = new Set(); // Set of file paths to delete from repo
+
 // State management
 let currentTab = "photoshop";
 let sortableInstance = null;
@@ -392,9 +395,22 @@ function getCurrentArray() {
     }
 }
 
+// Convert a local src path to GitHub repository path
+function getGitHubFilePath(srcPath) {
+    // Remove leading ../ and convert to repository path
+    if (srcPath.startsWith('../')) {
+        return srcPath.substring(3); // Remove '../'
+    }
+    // Handle relative paths that don't start with ../
+    if (srcPath.startsWith('assets/')) {
+        return srcPath;
+    }
+    return null;
+}
+
 // Remove an item from the current array
 window.removeItem = function (index) {
-    if (!confirm('Are you sure you want to delete this item?')) {
+    if (!confirm('Are you sure you want to delete this item? This will also delete the file from the repository when you save changes.')) {
         return;
     }
 
@@ -406,6 +422,13 @@ window.removeItem = function (index) {
         // Revoke the object URL to free memory
         const fileObject = uploadedFileObjects.get(removedItem.src);
         uploadedFileObjects.delete(removedItem.src);
+    } else if (!removedItem.isNewUpload) {
+        // If it's an existing file, mark it for deletion from repository
+        const filePath = getGitHubFilePath(removedItem.src);
+        if (filePath) {
+            filesToDelete.add(filePath);
+            console.log('Marked for deletion:', filePath);
+        }
     }
 
     // Mark as having unsaved changes
@@ -414,7 +437,7 @@ window.removeItem = function (index) {
     renderList();
     updateExport();
 
-    showFeedback(`Deleted "${removedItem.title}"`);
+    showFeedback(`Deleted "${removedItem.title}" - File will be removed from repository when you save changes`);
 };
 
 // Setup drag and drop functionality
@@ -979,9 +1002,15 @@ function prepareCommitModal() {
     const newFilesCount = [...workingPhotoshopFiles, ...workingAftereffects, ...workingPPTFiles]
         .filter(item => item.isNewUpload).length;
 
+    const deletedFilesCount = filesToDelete.size;
+
     let defaultTitle = '';
-    if (newFilesCount > 0) {
+    if (newFilesCount > 0 && deletedFilesCount > 0) {
+        defaultTitle = `Add ${newFilesCount} and delete ${deletedFilesCount} portfolio files`;
+    } else if (newFilesCount > 0) {
         defaultTitle = `Add ${newFilesCount} new portfolio ${newFilesCount === 1 ? 'file' : 'files'}`;
+    } else if (deletedFilesCount > 0) {
+        defaultTitle = `Delete ${deletedFilesCount} portfolio ${deletedFilesCount === 1 ? 'file' : 'files'}`;
     } else {
         defaultTitle = 'Update portfolio assets';
     }
@@ -1009,6 +1038,16 @@ function updateCommitPreview() {
         }
         filesListElement.appendChild(li);
     });
+
+    // Show files to be deleted
+    if (filesToDelete.size > 0) {
+        filesToDelete.forEach(filePath => {
+            const li = document.createElement('li');
+            li.textContent = filePath + ' (deleted)';
+            li.style.color = '#e74c3c';
+            filesListElement.appendChild(li);
+        });
+    }
 
     // Add assetsName.js
     const assetsLi = document.createElement('li');
@@ -1058,7 +1097,19 @@ async function executeCommit() {
         autoSaveBtn.disabled = true;
         autoSaveBtn.textContent = '🚀 Committing...';
 
-        // Step 1: Upload new files to GitHub
+        // Step 1: Delete files marked for deletion
+        if (filesToDelete.size > 0) {
+            showSaveStatus('Deleting removed files from repository...', 'info');
+            const deleteResults = await deleteFilesFromGitHub(filesToDelete);
+
+            if (!deleteResults.success) {
+                console.warn('Some files could not be deleted:', deleteResults.failedFiles);
+                // Continue with the commit even if some deletions failed
+                showSaveStatus('Warning: Some files could not be deleted. Continuing with commit...', 'warning');
+            }
+        }
+
+        // Step 2: Upload new files to GitHub
         const filesToCommit = getFilesToCommit();
         const uploadResults = await uploadFilesToGitHub(filesToCommit);
 
@@ -1066,37 +1117,38 @@ async function executeCommit() {
             throw new Error(uploadResults.error || 'Failed to upload files to GitHub');
         }
 
-        // Step 2: Update assetsName.js file
+        // Step 3: Update assetsName.js file
         const updateResults = await updateAssetsFileInGitHub();
 
         if (!updateResults.success) {
             throw new Error(updateResults.error || 'Failed to update assetsName.js in GitHub');
         }
 
-        // Step 3: Mark as saved
+        // Step 4: Mark as saved
         hasUnsavedChanges = false;
         updateSaveButtons();
         autoSaveBtn.textContent = '🚀 Commit to GitHub';
 
-        // Step 4: Clear uploaded file objects since they're now on GitHub
+        // Step 5: Clear uploaded file objects and files to delete since they're now processed
         uploadedFileObjects.clear();
+        filesToDelete.clear();
 
-        // Step 5: Update original data to match current state
+        // Step 6: Update original data to match current state
         originalData = {
             PhotoshopFiles: [...workingPhotoshopFiles.map(cleanItem)],
             videoFiles: [...workingAftereffects.map(cleanItem)],
             PPTFiles: [...workingPPTFiles.map(cleanItem)]
         };
 
-        // Step 6: Remove isNewUpload flags since files are now saved
+        // Step 7: Remove isNewUpload flags since files are now saved
         workingPhotoshopFiles.forEach(item => delete item.isNewUpload);
         workingAftereffects.forEach(item => delete item.isNewUpload);
         workingPPTFiles.forEach(item => delete item.isNewUpload);
 
-        // Step 7: Re-render to show updated state
+        // Step 8: Re-render to show updated state
         renderList();
 
-        // Step 8: Show success message
+        // Step 9: Show success message
         showSaveStatus(
             `✅ Successfully committed to GitHub! ${uploadResults.filesUploaded} files uploaded.`,
             'success'
@@ -1220,6 +1272,82 @@ async function updateAssetsFileInGitHub() {
 
     } catch (error) {
         console.error('GitHub assets update error:', error);
+        return {
+            success: false,
+            error: error.message
+        };
+    }
+}
+
+// Delete files from GitHub repository
+async function deleteFilesFromGitHub(filePaths) {
+    if (!filePaths || filePaths.size === 0) {
+        return { success: true };
+    }
+
+    try {
+        const deletedFiles = [];
+        const failedFiles = [];
+
+        for (const filePath of filePaths) {
+            try {
+                console.log(`🗑️ Deleting file from repository: ${filePath}`);
+
+                // First, get the current file to get its SHA (required for deletion)
+                const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${filePath}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `token ${GITHUB_CONFIG.token}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!getResponse.ok) {
+                    if (getResponse.status === 404) {
+                        console.log(`File not found in repository (already deleted?): ${filePath}`);
+                        continue;
+                    }
+                    throw new Error(`Failed to get file info: ${getResponse.statusText}`);
+                }
+
+                const fileData = await getResponse.json();
+
+                // Delete the file using its SHA
+                const deleteResponse = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${filePath}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `token ${GITHUB_CONFIG.token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: `Delete ${filePath}`,
+                        sha: fileData.sha,
+                        branch: GITHUB_CONFIG.branch
+                    })
+                });
+
+                if (!deleteResponse.ok) {
+                    const errorData = await deleteResponse.json();
+                    throw new Error(`Failed to delete file: ${errorData.message}`);
+                }
+
+                deletedFiles.push(filePath);
+                console.log(`✅ Deleted file from repository: ${filePath}`);
+
+            } catch (error) {
+                console.error(`❌ Failed to delete file ${filePath}:`, error);
+                failedFiles.push({ path: filePath, error: error.message });
+            }
+        }
+
+        return {
+            success: failedFiles.length === 0,
+            deletedFiles,
+            failedFiles
+        };
+
+    } catch (error) {
+        console.error('GitHub file deletion error:', error);
         return {
             success: false,
             error: error.message
