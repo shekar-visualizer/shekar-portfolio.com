@@ -1,4 +1,7 @@
 const PhotoshopFiles = [
+  { src: "sep23.jpg", title: "Take a look!" },
+  { src: "sep25.jpg", title: "Take a look!" },
+  { src: "sep26.jpg", title: "Take a look!" },
   { src: "nov1.jpg", title: "Take a look!" },
   { src: "nov2.jpg", title: "Take a look!" },
   { src: "nov3.jpg", title: "Take a look!" },
@@ -18,10 +21,7 @@ const PhotoshopFiles = [
   { src: "nov17.jpg", title: "Take a look!" },
   { src: "nov18.jpg", title: "Take a look!" },
   { src: "nov19.jpg", title: "Take a look!" },
-  { src: "sep23.jpg", title: "Take a look!" },
   { src: "sep24.jpg", title: "Take a look!" },
-  { src: "sep25.jpg", title: "Take a look!" },
-  { src: "sep26.jpg", title: "Take a look!" },
   { src: "sep1.jpg", title: "Take a look!" },
   { src: "sep2.jpg", title: "Take a look!" },
   { src: "sep3.jpg", title: "Take a look!" },
@@ -111,51 +111,36 @@ const PhotoshopFiles = [
   { src: "45.jpg", title: "Take a look!" },
   { src: "46.jpg", title: "Take a look!" },
   { src: "47.jpg", title: "Take a look!" },
-  { src: "48.jpg", title: "Take a look!" },
-  
+  { src: "48.jpg", title: "Take a look!" }
 ];
 
-
-
-const IllustratorFiles = [
-  { src: 'I1.jpg', title: "Take a look!" },
-  { src: 'I2.jpg', title: "Take a look!" },
-  { src: 'I3.jpg', title: "Take a look!" },
-  { src: 'I4.jpg', title: "Take a look!" },
-  { src: 'I5.jpg', title: "Take a look!" },
-  { src: 'I6.jpg', title: "Take a look!" },
-  { src: 'I7.jpg', title: "Take a look!" },
-]
+const videoFiles = [
+  { src: "sep1.mp4", title: "Valley OAK" },
+  { src: "sep2.mp4", title: "arcus" },
+  { src: "sep3.mp4", title: "arcus" },
+  { src: "sep4.mp4", title: "arcus" },
+  { src: "sep5.mp4", title: "arcus" },
+  { src: "A1_lensekart.mp4", title: "Lensekart" },
+  { src: "A1_Phonepe_rework.mp4", title: "Lensekart" },
+  { src: "A2.mp4", title: "Lensekart" },
+  { src: "BG_CHARECTER ANIMATION.mp4", title: "Lensekart" },
+  { src: "BOAT ANIMATION WITH SHAPES.mp4", title: "Lensekart" },
+  { src: "INDIA MAP ANIMATION.mp4", title: "Lensekart" },
+  { src: "Jan23_GP1_JK.mp4", title: "Lensekart" },
+  { src: "Jan23_GP_JK4.mp4", title: "Lensekart" },
+  { src: "Nityam.mp4", title: "Lensekart" },
+  { src: "Nityam1.mp4", title: "Lensekart" },
+  { src: "Nityam3.mp4", title: "Lensekart" },
+  { src: "Nityam4.mp4", title: "Lensekart" },
+  { src: "TEA CUP ANUMATION.mp4", title: "Lensekart" },
+  { src: "UPSC.mp4", title: "Lensekart" },
+  { src: "Vaishnavi.mp4", title: "Lensekart" },
+  { src: "Vaishnavi2.mp4", title: "Lensekart" },
+  { src: "Vaishnavi3.mp4", title: "Lensekart" }
+];
 
 const PPTFiles = [
-  { src: 'PP1.jpg', title: "Take a look!" },
-  { src: 'PP2.jpg', title: "Take a look!" },
-  { src: 'PP3.jpg', title: "Take a look!" },
-
-]
-
-
-const videoFiles = [
-  { src: 'sep1.mp4', title: 'Valley OAK' },
-  { src: 'sep2.mp4', title: 'arcus' },
-  { src: 'sep3.mp4', title: 'arcus' },
-  { src: 'sep4.mp4', title: 'arcus' },
-  { src: 'sep5.mp4', title: 'arcus' },
-  { src: 'A1_lensekart.mp4', title: 'Lensekart' },
-  { src: 'A1_Phonepe_rework.mp4', title: 'Lensekart' },
-  { src: 'A2.mp4', title: 'Lensekart' },
-  { src: 'BG_CHARECTER ANIMATION.mp4', title: 'Lensekart' },
-  { src: 'BOAT ANIMATION WITH SHAPES.mp4', title: 'Lensekart' },
-  { src: 'INDIA MAP ANIMATION.mp4', title: 'Lensekart' },
-  { src: 'Jan23_GP1_JK.mp4', title: 'Lensekart' },
-  { src: 'Jan23_GP_JK4.mp4', title: 'Lensekart' },
-  { src: 'Nityam.mp4', title: 'Lensekart' },
-  { src: 'Nityam1.mp4', title: 'Lensekart' },
-  { src: 'Nityam3.mp4', title: 'Lensekart' },
-  { src: 'Nityam4.mp4', title: 'Lensekart' },
-  { src: 'TEA CUP ANUMATION.mp4', title: 'Lensekart' },
-  { src: 'UPSC.mp4', title: 'Lensekart' },
-  { src: 'Vaishnavi.mp4', title: 'Lensekart' },
-  { src: 'Vaishnavi2.mp4', title: 'Lensekart' },
-  { src: 'Vaishnavi3.mp4', title: 'Lensekart' }
+  { src: "PP1.jpg", title: "Take a look!" },
+  { src: "PP2.jpg", title: "Take a look!" },
+  { src: "PP3.jpg", title: "Take a look!" }
 ];
