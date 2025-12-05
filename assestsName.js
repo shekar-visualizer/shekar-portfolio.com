@@ -1,4 +1,5 @@
 const PhotoshopFiles = [
+  { src: "2218490-Jim-Rohn-Quote-If-you-share-a-good-idea-long-enough-it-will.jpg", title: "2218490-Jim-Rohn-Quote-If-you-share-a-good-idea-long-enough-it-will" },
   { src: "sep23.jpg", title: "Take a look!" },
   { src: "sep25.jpg", title: "Take a look!" },
   { src: "sep26.jpg", title: "Take a look!" },
