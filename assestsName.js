@@ -1,5 +1,4 @@
 const PhotoshopFiles = [
-  { src: "PNG image 2.png", title: "PNG image 2" },
   { src: "img1.jpg", title: "Img1" },
   { src: "sep23.jpg", title: "Take a look!" },
   { src: "sep25.jpg", title: "Take a look!" },
