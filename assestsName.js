@@ -1,4 +1,5 @@
 const PhotoshopFiles = [
+  { src: "Screenshot 2025-12-05 at 4.21.35 PM.png", title: "Screenshot 2025-12-05 at 4.21.35 PM" },
   { src: "sep23.jpg", title: "Take a look!" },
   { src: "sep25.jpg", title: "Take a look!" },
   { src: "sep26.jpg", title: "Take a look!" },
