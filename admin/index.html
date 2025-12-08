@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Admin Panel</title>
+    <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <h1>Portfolio Admin Panel</h1>
+                <p>Manage your portfolio assets</p>
+            </div>
+            <div class="header-right">
+                <button id="visitSiteBtn" class="visit-site-btn">
+                    🌐 Visit Portfolio Site
+                </button>
+                <button id="saveChangesBtn" class="save-changes-btn" disabled>
+                    💾 Save Changes
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="tabs">
+        <button data-tab="photoshop" class="active">Photoshop</button>
+        <button data-tab="videos">Videos</button>
+        <button data-tab="ppt">PPT</button>
+    </nav>
+
+    <section id="actions">
+        <div class="upload-area">
+            <input type="file" id="fileInput" multiple accept="image/*,video/*" />
+            <label for="fileInput" class="file-label">Choose Files</label>
+            <button id="uploadBtn">Upload</button>
+        </div>
+        <div class="upload-info">
+            <small>Upload images or videos to add them to the current tab</small>
+        </div>
+    </section>
+
+    <section id="list" class="grid"></section>
+
+    <section id="export-section">
+        <h3>Updated JSON Output</h3>
+        <div class="export-controls">
+            <p class="export-info">Review changes and commit to GitHub repository</p>
+            <div class="export-buttons">
+                <button id="copyBtn">📋 Copy to Clipboard</button>
+                <button id="autoSaveBtn" class="auto-save-btn">� Commit to GitHub</button>
+                <button id="downloadFilesBtn" class="download-files-btn">📥 Download Files</button>
+            </div>
+        </div>
+        <pre id="exportArea"></pre>
+        <div id="saveStatus" class="save-status"></div>
+    </section>
+
+    <!-- GitHub Auth Modal -->
+    <div id="githubAuthModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>🔑 GitHub Authentication</h3>
+            <p>To commit changes directly to your repository, please provide your GitHub token:</p>
+            <div class="auth-form">
+                <label for="githubToken">GitHub Personal Access Token:</label>
+                <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                <small>
+                    <a href="https://github.com/settings/tokens" target="_blank">Create token here</a>
+                    with 'Contents' permission for your repo
+                </small>
+                <div class="auth-buttons">
+                    <button id="saveTokenBtn" class="save-token-btn">💾 Save Token</button>
+                    <button id="cancelAuthBtn" class="cancel-auth-btn">❌ Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Commit Message Modal -->
+    <div id="commitModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>💬 Commit Message</h3>
+            <p>Describe your changes:</p>
+            <div class="commit-form">
+                <input type="text" id="commitTitle" placeholder="Add new portfolio images" maxlength="72">
+                <textarea id="commitDescription" placeholder="Optional: Detailed description of changes..."></textarea>
+                <div class="commit-preview">
+                    <strong>Files to be added/updated:</strong>
+                    <ul id="filesList"></ul>
+                </div>
+                <div class="commit-buttons">
+                    <button id="confirmCommitBtn" class="confirm-commit-btn">🚀 Commit & Push</button>
+                    <button id="cancelCommitBtn" class="cancel-commit-btn">❌ Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load asset data -->
+    <script src="../assestsName.js"></script>
+    <!-- SortableJS for drag/drop -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+    <!-- Admin functionality -->
+    <script src="./admin.js"></script>
+</body>
+
+</html>
