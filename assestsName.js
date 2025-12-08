@@ -1,4 +1,6 @@
 const PhotoshopFiles = [
+    { src: "393660864_cf3bd93a-3f97-45e7-a82c-8d7fa46c4cf1.jpg", title: "Take a look!" },
+  { src: "IVIS1.jpg", title: "Take a look!" },
   { src: "img1.jpg", title: "Img1" },
   { src: "sep23.jpg", title: "Take a look!" },
   { src: "sep25.jpg", title: "Take a look!" },
